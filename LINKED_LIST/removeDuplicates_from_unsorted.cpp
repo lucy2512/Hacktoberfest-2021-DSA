@@ -1,6 +1,6 @@
-#include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
-
+ 
 class node{
     public: 
     int data;
@@ -10,6 +10,38 @@ class node{
         next = NULL;
     }
 };
+void removeDuplicates(node *start)
+{
+    unordered_set<int> seen;  // hash map
+ 
+    node *curr = start;
+    node *prev = NULL;
+    while (curr != NULL)
+    {
+        if (seen.find(curr->data) != seen.end())
+        {
+           prev->next = curr->next;
+           delete (curr);
+        }
+        else
+        {
+           seen.insert(curr->data);
+           prev = curr;
+        }
+        curr = prev->next;
+    }
+}
+ 
+void printList(node *head)
+{
+    node* temp = head;
+    while(temp != NULL){
+        cout<<temp->data;
+        cout<<"->";
+        temp = temp->next;
+    }
+    cout<<"NULL"<<endl;
+}
 void insertAtTail(node* &head, int val){
     node* n = new node(val);
 
@@ -25,45 +57,26 @@ void insertAtTail(node* &head, int val){
     temp->next = n;
 
 }
-void display(node* head){
-    node* temp = head;
-    while(temp != NULL){
-        cout<<temp->data;
-        cout<<"->";
-        temp = temp->next;
-    }
-    cout<<"NULL"<<endl;
-}
-node* removeDuplicates(node* &head){
-    node* currptr = head;
-    node* next_next;
-
-    while(currptr->next != NULL){
-        if(currptr->data == currptr->next->data){
-            next_next = currptr->next->next;
-            free(currptr->next);
-            currptr->next = next_next;
-        }
-        else{
-            currptr = currptr->next;
-        }
-    }
-    return head;
-}
-
-int main(){
+ 
+int main()
+{
     node* head = NULL;
-    insertAtTail(head, 1);
-    insertAtTail(head, 1);
-    insertAtTail(head, 3);
-    insertAtTail(head, 4);
-    insertAtTail(head, 5);
-    insertAtTail(head, 5);
-    insertAtTail(head, 7);
-    display(head);
-    cout<<endl;
-    // node* newhead = removeDuplicates(head);
-    // display(newhead);
+    insertAtTail(head, 10);
+    insertAtTail(head, 12);
+    insertAtTail(head, 11);
+    insertAtTail(head, 11);
+    insertAtTail(head, 12);
+    insertAtTail(head, 11);
+    insertAtTail(head, 10);
 
-return 0;
+ 
+    printf("Linked list before removing duplicates : \n");
+    printList(head);
+ 
+    removeDuplicates(head);
+ 
+    printf("\nLinked list after removing duplicates : \n");
+    printList(head);
+ 
+    return 0;
 }
